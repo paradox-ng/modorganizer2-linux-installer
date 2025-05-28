@@ -16,6 +16,7 @@ selected_game=$( \
 		radio \
 		450 "$screen_text" \
   		"oblivionremastered" "Oblivion Remastered"\
+		"fallout76" "Fallout 76"\
 )
 
 if [ -z "$selected_game" ]; then
