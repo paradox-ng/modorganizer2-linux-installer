@@ -21,6 +21,7 @@ selected_game=$( \
 		"fallout3" "Fallout 3" \
 		"fallout3_goty" "Fallout 3 - Game of the Year Edition" \
 		"fallout4" "Fallout 4" \
+		"fallout4vr" "Fallout 4 VR" \
 		"newvegas" "Fallout: New Vegas" \
 		"newvegas_ru" "Fallout: New Vegas RU" \
 		"morrowind" "Morrowind" \

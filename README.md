@@ -43,12 +43,14 @@ The installer will automatically configure game-specific workarounds and install
 | Cyberpunk 2077        | Working           | N/A                                                                            | Not Tested                         |
 | Fallout 3             | Working*          | Working*                                                                       | Not Tested*                        |
 | Fallout 4             | Working*          | Some plugins may not work. See [#32](https://github.com/rockerbacon/modorganizer2-linux-installer/issues/32) | v0.393 or older might need `EnablePostPassShader` disabled* |
+| Fallout 4 VR          | Not Tested        | Not Tested                                                                            | Not Tested 
 | Fallout New Vegas     | Fullscreen Only*  | Working*                                                                       | Working*                           |
 | Morrowind             | Not Tested*       | Not Tested*                                                                    | Not Tested*                        |
 | Oblivion              | Working*          | [Some plugins might require manual setup](https://github.com/rockerbacon/lutris-skyrimse-installers/issues/63#issuecomment-643690247)* | Not Tested* |
 | Oblivion Remastered** | Not Tested        | N/A                                                                            | Not Tested                         |
 | Skyrim                | Working*          | Working*                                                                       | Working*                           |
 | Skyrim Special Edition| Working*          | Working                                                                        | Not Tested*                        |
+| Skyrim VR             | Working*          | Working*                                                                        | Not Tested*                        |
 | Starfield             | Working*          | Working*, Not Included (Hosted on Nexus)                                       | Not Tested*                        |
 
 <sub>An asterisk (*) indicates that the status was indicated as such by the [original repo](https://github.com/rockerbacon/modorganizer2-linux-installer) and have not been tested by myself, but I have no reason to believe they are incorrect. If you find any issues with the games listed above, please open an issue on this repository and I will do my best to address it.</sub><br />
