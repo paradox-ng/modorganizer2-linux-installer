@@ -78,3 +78,13 @@ WINEESYNC=1 WINEFSYNC=1 protontricks-launch --appid 489830 "$HOME/.config/modorg
 ```
 
 You can find the proper appid for the game you want [here](gamesinfo).
+
+# Troubleshooting
+
+Protontricks can randomly fail to apply the necessary overrides or configurations when called by a script. If you're having issues with the installer, try the following:
+* Check the logs for any error messages or clues about what might be going wrong.
+* Run the installer again and see if the issue persists.
+* Try a different location for the Mod Organizer 2 location
+* Make sure you have applied the necessary fixes listed in the above post-install documentation.
+* If protontricks fails at a certain dependency, try installing it manually with their gui.
+* If all else fails, check the [GitHub issues](https://github.com/Furglitch/modorganizer2-linux-installer/issues) for similar reports or to create a new issue.

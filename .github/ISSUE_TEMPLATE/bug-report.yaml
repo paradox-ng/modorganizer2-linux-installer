@@ -3,6 +3,22 @@ description: Create a report to help us fix issues
 title: "[Bug]: "
 labels: ['bug']
 body:
+  - type: checkboxes
+    id: troubleshooting
+    attributes:
+      label: Troubleshooting
+      description: Please confirm you have tried the following before submitting this bug report.
+      options:
+        - label: I have read the documentation.
+          required: true
+        - label: I have searched for existing issues.
+          required: true
+        - label: I have updated to the latest installer version.
+          required: false
+        - label: I have read the [post-install documentation](https://github.com/Furglitch/modorganizer2-linux-installer/blob/master/post-install.md).
+          required: true
+        - label: I have read the ['Troubleshooting' section](https://github.com/Furglitch/modorganizer2-linux-installer/blob/master/post-install.md#Troubleshooting) of the post-install documentation.
+          required: true
   - type: textarea
     id: issue
     attributes:
