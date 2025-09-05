@@ -26,11 +26,11 @@ function do_protontricks() {
 	case "$release" in
 		flatpak)
 			WINETRICKS='' \
-			flatpak run 'com.github.Matoking.protontricks' "$@"
+			flatpak run 'com.github.Matoking.protontricks' --verbose "$@"
 			return $?
 		;;
 		system)
-			protontricks "$@"
+			protontricks --verbose "$@"
 			return $?
 		;;
 		*)
