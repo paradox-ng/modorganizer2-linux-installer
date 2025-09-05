@@ -6,8 +6,10 @@ set -eu
 set -o pipefail
 
 script_root=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
-: > "$script_root/install.log"
-exec > >(tee -a "$script_root/install.log") 2>&1
+log_datetime=$(date +"%Y%m%d_%H%M%S")
+log_file="$script_root/install_$log_datetime.log"
+: > "$log_file"
+exec > >(tee -a "$log_file") 2>&1
 
 utils="$script_root/utils"
 dialog="$utils/dialog.sh"
