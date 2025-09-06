@@ -121,16 +121,19 @@ if [ ! -f "$downloaded_jdk" ]; then
 	"$extract" "$downloaded_jdk" "$extracted_jdk"
 fi
 
-if ! validate_sha256 "$downloaded_mo2" "$mo2_sha256"; then
-	rm -f "$downloaded_mo2"
-	"$download" "$mo2_url" "$downloaded_mo2"
-	if ! validate_sha256 "$downloaded_mo2" "$mo2_sha256"; then
-		log_info "Failed to download MO2 with correct checksum. Aborting."
+mo2_attempts=0
+mo2_max_attempts=5
+while ! validate_sha256 "$downloaded_mo2" "$mo2_sha256"; do
+	mo2_attempts=$((mo2_attempts + 1))
+	if [ "$mo2_attempts" -ge "$mo2_max_attempts" ]; then
+		log_info "Failed to download MO2 with correct checksum after $mo2_max_attempts attempts. Aborting."
 		exit 1
 	fi
-	mkdir "$extracted_mo2"
-	"$extract" "$downloaded_mo2" "$extracted_mo2"
-elif [ ! -d "$extracted_mo2" ]; then
+	log_info "Attempt $mo2_attempts: Downloading MO2 again due to checksum failure."
+	rm -f "$downloaded_mo2"
+	"$download" "$mo2_url" "$downloaded_mo2"
+done
+if [ ! -d "$extracted_mo2" ]; then
 	mkdir "$extracted_mo2"
 	"$extract" "$downloaded_mo2" "$extracted_mo2"
 fi
