@@ -69,11 +69,6 @@ expect_exit=1
 
 source "$step/check_dependencies.sh"
 
-if [ -z "$nexus_token" ]; then
-	log_error "NEXUS_TOKEN environment variable not set. Please export your Nexus API token before running the installer."
-	exit 1
-fi
-
 # Parse options; implemented as a loop in case there are additional uses for it later.
 while getopts "c:w:" launch_options; do
 	case "${launch_options}" in
