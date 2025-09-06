@@ -102,7 +102,10 @@ else
 fi
 
 selected_plugins=$(source "$step/select_plugins.sh")
-log_info "selected plugins '$selected_plugins'"
+if [ -z "$selected_plugins" ]; then
+else
+	log_info "selected plugins '$selected_plugins'"
+fi
 source "$step/load_plugininfo.sh"
 
 source "$step/clean_game_prefix.sh"
