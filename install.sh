@@ -23,6 +23,9 @@ workarounds="$script_root/workarounds"
 downloads_cache=/tmp/mo2-linux-installer-downloads-cache
 shared="$HOME/.local/share/modorganizer2"
 
+nexus_token="${NEXUS_TOKEN:-}"
+echo "Using Nexus token: ${nexus_token:0:4}****${nexus_token: -4}" >&2
+
 custom_game=''
 custom_workaround=''
 started_download_step=0
@@ -68,6 +71,11 @@ source "$step/update_check.sh"
 expect_exit=1
 
 source "$step/check_dependencies.sh"
+
+if [ -z "$nexus_token" ]; then
+	log_error "NEXUS_TOKEN environment variable not set. Please export your Nexus API token before running the installer."
+	exit 1
+fi
 
 # Parse options; implemented as a loop in case there are additional uses for it later.
 while getopts "c:w:" launch_options; do

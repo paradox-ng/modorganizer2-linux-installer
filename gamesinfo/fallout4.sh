@@ -5,4 +5,5 @@ game_executable="Fallout4Launcher.exe"
 game_protontricks=("xaudio2_7=native" "grabfullscreen=y")
 game_scriptextender_url=""
 game_scriptextender_files=""
-
+game_scriptextender_modid="42147"
+game_scriptextender_fileid="316287"
