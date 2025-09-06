@@ -23,9 +23,6 @@ workarounds="$script_root/workarounds"
 downloads_cache=/tmp/mo2-linux-installer-downloads-cache
 shared="$HOME/.local/share/modorganizer2"
 
-nexus_token="${NEXUS_TOKEN:-}"
-echo "Using Nexus token: ${nexus_token:0:4}****${nexus_token: -4}" >&2
-
 custom_game=''
 custom_workaround=''
 started_download_step=0
