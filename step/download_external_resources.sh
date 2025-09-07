@@ -48,11 +48,11 @@ if [ "$nexus_scriptextender" == true ]; then
 fi
 
 if [ -n "$game_scriptextender_url" ]; then
-    base_filename=$(basename "$game_scriptextender_url" | cut -d'?' -f1)
-    downloaded_scriptextender="$downloads_cache/${game_nexusid}_$base_filename"
-    log_info "Will download script extender to: $downloaded_scriptextender"
-    extracted_scriptextender="${downloaded_scriptextender%.*}"
-    log_info "Will extract script extender to: $extracted_scriptextender"
+	base_filename=$(basename "$game_scriptextender_url" | cut -d'?' -f1)
+	downloaded_scriptextender="$downloads_cache/${game_nexusid}_$base_filename"
+	log_info "Will download script extender to: $downloaded_scriptextender"
+	extracted_scriptextender="${downloaded_scriptextender%.*}"
+	log_info "Will extract script extender to: $extracted_scriptextender"
 fi
 
 if [ -n "$plugin_download_urls" ]; then
