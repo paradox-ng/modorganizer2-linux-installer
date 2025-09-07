@@ -14,6 +14,7 @@ exec > >(tee -a "$log_file") 2>&1
 utils="$script_root/utils"
 dialog="$utils/dialog.sh"
 pluginsinfo="$script_root/pluginsinfo.json"
+nexusapi="$utils/nexus-api.sh"
 gamesinfo="$script_root/gamesinfo"
 handlers="$script_root/handlers"
 launchers="$script_root/launchers"
@@ -102,26 +103,26 @@ else
 fi
 
 selected_plugins=$(source "$step/select_plugins.sh")
-if [ -n -z "$selected_plugins" ]; then
+if [ -n "$selected_plugins" ]; then
 	log_info "selected plugins '$selected_plugins'"
 fi
 source "$step/load_plugininfo.sh"
 
-source "$step/clean_game_prefix.sh"
+#source "$step/clean_game_prefix.sh"
 
-install_dir=$(source "$step/select_install_dir.sh")
+install_dir='/home/furglitch/Downloads/test' #$(source "$step/select_install_dir.sh")
 log_info "selected install directory '$install_dir'"
 
 expect_exit=0
 
 source "$step/download_external_resources.sh"
-source "$step/install_external_resources.sh"
-source "$step/install_nxm_handler.sh"
-source "$step/configure_steam_wineprefix.sh"
-source "$step/install_steam_redirector.sh"
-source "$step/register_installation.sh"
+#source "$step/install_external_resources.sh"
+#source "$step/install_nxm_handler.sh"
+#source "$step/configure_steam_wineprefix.sh"
+#source "$step/install_steam_redirector.sh"
+#source "$step/register_installation.sh"
 
-source "$step/apply_workarounds.sh"
+#source "$step/apply_workarounds.sh"
 
 log_info "installation completed successfully"
 expect_exit=1
