@@ -108,7 +108,7 @@ if [ -n "$selected_plugins" ]; then
 fi
 source "$step/load_plugininfo.sh"
 
-#source "$step/clean_game_prefix.sh"
+source "$step/clean_game_prefix.sh"
 
 install_dir='/home/furglitch/Downloads/test' #$(source "$step/select_install_dir.sh")
 log_info "selected install directory '$install_dir'"
@@ -116,13 +116,13 @@ log_info "selected install directory '$install_dir'"
 expect_exit=0
 
 source "$step/download_external_resources.sh"
-#source "$step/install_external_resources.sh"
-#source "$step/install_nxm_handler.sh"
-#source "$step/configure_steam_wineprefix.sh"
-#source "$step/install_steam_redirector.sh"
-#source "$step/register_installation.sh"
+source "$step/install_external_resources.sh"
+source "$step/install_nxm_handler.sh"
+source "$step/configure_steam_wineprefix.sh"
+source "$step/install_steam_redirector.sh"
+source "$step/register_installation.sh"
 
-#source "$step/apply_workarounds.sh"
+source "$step/apply_workarounds.sh"
 
 log_info "installation completed successfully"
 expect_exit=1
