@@ -1,10 +1,12 @@
+#!/usr/bin/env bash
+
 token="${NEXUS_TOKEN:-}"
 user_token="${NEXUS_USER_TOKEN:-}"
 application="mod-organizer-2-linux-installer"
 version="indev"
 
-function sso() {
-	echo "Placeholder"
+function oauth() {
+	
 }
 
 function request_headers() {
