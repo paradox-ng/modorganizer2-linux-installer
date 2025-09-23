@@ -3,7 +3,7 @@
 > $${\color{red}Temporary \space Hold}$$<br/>
 > This has been my main project for a number of months, and will currently be on the backburner while I focus on getting settled into a new job as well as work on other projects. Progress is halted unless a major update or bugfix is needed, but the project is not abandoned.
 
-This project aims to installing Mod Organizer 2 instances on Linux as easy as possible. It does that by providing installers which automatically setup a working experience for the user. 
+This project aims to installing Mod Organizer 2 instances on Linux as easy as possible. It does that by providing installers which automatically setup a working experience for the user.
 
 Originally developed by rockerbacon. A major thanks to him for doing most of the legwork.
 
@@ -15,21 +15,22 @@ _Currently only supports Steam installations._
 
 | Program | Purpose | Availability |
 |---------|---------|--------------|
-| bash    | programming language | Installed by default on *most* distros |
-| curl _or_ wget | internet downloads | Installed by default on *most* distros |
-| zenity | dialog boxes ("gui") | Installed by default on *most* distros |
+| bash    | programming language | Installed by default on _most_ distros |
+| curl _or_ wget | internet downloads | Installed by default on _most_ distros |
+| zenity | dialog boxes ("gui") | Installed by default on _most_ distros |
 | 7z | archive extractor | Should be available through your distro's package manager |
 | jq | json reader | Should be available through your distro's package manager.</br>Soft requirement for MO2 plugins, will run without it |
 | protontricks | proton prefix editor | **Steam Deck:** Must install via Discover.</br>**Others:** Check [available install methods](https://github.com/Matoking/protontricks#installation) to ensure you're using an up-to-date version |
 | protontricks-launcher | protontricks gui | Should come with `protontricks`. If it's not available, see [this](https://github.com/Matoking/protontricks#desktop)
 
 ### Installation Steps
+
 1. Install the game you want to play on Steam;
 2. Download the the latest stable release [here](https://github.com/furglitch/modorganizer2-linux-installer/releases/latest).
 3. Extract the downloaded file;
 4. Open the extracted folder in a terminal and execute `./install.sh`;
 5. The installer will start and guide you through the rest of the process;
-6. After installation, ***read the [post-install instructions](post-install.md)***. It contains additional recommended steps and required configurations for some games;
+6. After installation, _**read the [post-install instructions](post-install.md)**_. It contains additional recommended steps and required configurations for some games;
 7. Run the game on Steam and Mod Organizer 2 should start;
 
 The installer will automatically configure game-specific workarounds and install the script extender for your game of choice. Java binaries are also made available at `C:\java` for running Proc Patchers.
@@ -41,6 +42,7 @@ The installer will automatically configure game-specific workarounds and install
 **To uninstall MO2**, follow the [uninstallation guide](uninstall.md).
 
 ## Supported Games
+
 | Game                   | Gameplay          | Script Extender                                                                | ENB                                |
 |------------------------|-------------------|--------------------------------------------------------------------------------|------------------------------------|
 | Cyberpunk 2077         | Working           | N/A                                                                            | Not Tested                         |
@@ -64,6 +66,7 @@ For known bugs and necessary workarounds, please refer to the [issues page](http
 Please, help to keep this table up to date by [opening issues](https://github.com/furglitch/modorganizer2-linux-installer/issues/new/choose) on any successes or problems you have experienced.
 
 ## Plugin Installation
+
 _This feature is dependent on `jq` being installed, and will be skipped if it is not available._<br/>
 The installer will give you a choice of MO2 plugins to automatically download and install. If you do not want to install any plugins, simply skip the plugin selection step.
 
@@ -77,12 +80,15 @@ If a plugin is found to be outdated or incompatible with Linux/Proton, it will b
 It is highly recommended to backup your existing installation before updating.
 
 #### From 5.0 and above
+
 You can update by simply following the install instructions again.
 
 #### From 4.X.X and below
+
 Instructions are included in the [archived README](.github/OLD-README.md#from-4xx-and-below). Installations of versions prior to 5.0.0 are not supported.
 
 ## Installing Vortex
+
 The Vortex installer was created before Wine had builtin support for Mod Organizer 2. It should only be used for games which Mod Organizer 2 does not support.
 Vortex installations are not supported. Instructions are only provided as a reference.
 Instructions are included in the [archived README](.github/OLD-README.md#installing-vortex).

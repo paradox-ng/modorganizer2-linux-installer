@@ -1,3 +1,7 @@
+# Installation script for Nix/NixOS
+# Builds the steam redirector if it doesn't exist already and then launches the install.sh
+# Run with nix-shell
+# Requires the Nix package manager
 {
     pkgs ? import <nixpkgs> { },
 }:
