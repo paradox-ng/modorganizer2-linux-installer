@@ -38,7 +38,7 @@ if { [ "$game_appid" -eq 22300 ] || [ "$game_appid" -eq 22370 ]; } && [ -f "$ste
 
 	"$dialog" errorbox \
 		"Fallout 3 and Fallout 3 GOTY require the game version to be downgraded.\n\nInstructions have been provided in the GitHub Wiki."
-fi e
+fi
 
 if [ "$game_scriptextender_url" != "" ]; then
 	hasScriptExtender=true
