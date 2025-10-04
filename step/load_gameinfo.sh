@@ -23,22 +23,22 @@ elif [ -z "$game_steam_subdirectory" ]; then
 	exit 1
 fi
 
-steam_library=$("$utils/find-library-for-file.sh" "$game_steam_subdirectory/$game_executable")
-
-if [ ! -d "$steam_library" ]; then
-	log_error "could not find any Steam library containing a game with appid '$game_appid'. If you know exactly where the library is, you can specify it using the environment variable STEAM_LIBRARY"
-	"$dialog" errorbox \
-		"Could not find '$game_steam_subdirectory' in any of your Steam libraries\nMake sure the game is installed and that you've run it at least once"
-	exit 1
-fi
-
-## Fallout 3 Downgrade Check
-if { [ "$game_appid" -eq 22300 ] || [ "$game_appid" -eq 22370 ]; } && [ -f "$steam_library/$game_steam_subdirectory/Fallout3Launcher.exe" ]; then
-	log_error "Fallout 3 and Fallout 3 GOTY require the game version to be downgraded. Instructions have been provided in the GitHub Wiki."
-
-	"$dialog" errorbox \
-		"Fallout 3 and Fallout 3 GOTY require the game version to be downgraded.\n\nInstructions have been provided in the GitHub Wiki."
-fi
+steam_library=$(
+	export game_appid game_steam_subdirectory game_executable dialog
+	"$utils/find-library-for-file.sh"
+) ||
+	case "$?" in
+	1)
+		log_error "could not find any Steam library containing a game with appid '$game_appid'. If you know exactly where the library is, you can specify it using the environment variable STEAM_LIBRARY"
+		"$dialog" errorbox \
+			"Could not find '$game_steam_subdirectory' in any of your Steam libraries\nMake sure the game is installed and that you've run it at least once"
+		exit 1
+		;;
+	2)
+		# Fallout 3 needs to be downgraded, no additional dialogs to show
+		exit 1
+		;;
+	esac
 
 if [ "$game_scriptextender_url" != "" ]; then
 	hasScriptExtender=true
@@ -51,4 +51,3 @@ game_installation="$steam_library/steamapps/common/$game_steam_subdirectory"
 # defer loading these variables to step/clean_game_prefix.sh
 game_prefix=''
 game_compatdata=''
-
