@@ -102,7 +102,7 @@ else
 fi
 
 selected_plugins=$(source "$step/select_plugins.sh")
-if [ -n -z "$selected_plugins" ]; then
+if [ -n "$selected_plugins" ]; then
 	log_info "selected plugins '$selected_plugins'"
 fi
 source "$step/load_plugininfo.sh"
