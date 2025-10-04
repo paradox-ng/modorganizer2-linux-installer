@@ -1,4 +1,6 @@
 game_appid=22370
+game_gog_productid=""
+game_epic_productid=""
 game_executable="FalloutLauncherSteam.exe"
 game_nexusid="fallout3"
 game_steam_subdirectory="Fallout 3 goty"
