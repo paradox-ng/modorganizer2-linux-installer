@@ -1,7 +1,7 @@
 # Mod Organizer 2 Linux Installer
 
 > $${\color{red}Temporary \space Hold}$$<br/>
-> This has been my main project for a number of months, and will currently be on the backburner while I focus on getting settled into a new job as well as work on other projects. Progress is halted unless a major update or bugfix is needed, but the project is not abandoned.
+> This has been my main project for a number of months, and will currently be on the backburner while I focus on getting settled into a new job as well as work on other projects. The project is not abandoned.
 
 This project aims to installing Mod Organizer 2 instances on Linux as easy as possible. It does that by providing installers which automatically setup a working experience for the user.
 
@@ -30,7 +30,7 @@ _Currently only supports Steam installations._
 3. Extract the downloaded file;
 4. Open the extracted folder in a terminal and execute `./install.sh`;
 5. The installer will start and guide you through the rest of the process;
-6. After installation, _**read the [post-install instructions](post-install.md)**_. It contains additional recommended steps and required configurations for some games;
+6. After installation, _**read the [post-install instructions](https://github.com/Furglitch/modorganizer2-linux-installer/wiki/Post%E2%80%90Install-Instructions)**_. It contains additional recommended steps and required configurations for some games;
 7. Run the game on Steam and Mod Organizer 2 should start;
 
 The installer will automatically configure game-specific workarounds and install the script extender for your game of choice. Java binaries are also made available at `C:\java` for running Proc Patchers.
@@ -39,7 +39,7 @@ The installer will automatically configure game-specific workarounds and install
 
 **While these installers may be available on Lutris.net**, users are always recommended to use the latest stable release from this repository. The testers and maintainers of this project have little control over the content on Lutris and cannot assure that the installers available there are up to date nor that they haven't been incorrectly modified.
 
-**To uninstall MO2**, follow the [uninstallation guide](uninstall.md).
+**To uninstall MO2**, follow the [uninstallation guide](https://github.com/Furglitch/modorganizer2-linux-installer/wiki/Uninstalling-MO2).
 
 ## Supported Games
 
@@ -84,11 +84,4 @@ It is highly recommended to backup your existing installation before updating.
 You can update by simply following the install instructions again.
 
 #### From 4.X.X and below
-
 Instructions are included in the [archived README](.github/OLD-README.md#from-4xx-and-below). Installations of versions prior to 5.0.0 are not supported.
-
-## Installing Vortex
-
-The Vortex installer was created before Wine had builtin support for Mod Organizer 2. It should only be used for games which Mod Organizer 2 does not support.
-Vortex installations are not supported. Instructions are only provided as a reference.
-Instructions are included in the [archived README](.github/OLD-README.md#installing-vortex).
