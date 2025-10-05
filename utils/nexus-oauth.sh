@@ -2,7 +2,7 @@
 
 client_id="mo2linux-test"
 redirect_port="9000"
-redirect_uri=$(printf 'http://localhost:%s' "$redirect_port" | sed -e 's/:/%3A/g' -e 's/\//%2F/g')
+#redirect_uri=$(printf 'http://localhost:%s' "$redirect_port" | sed -e 's/:/%3A/g' -e 's/\//%2F/g')
 token="${NEXUS_TOKEN:-}"
 
 function code_challenge() { # https://modding.wiki/en/api/oauth2-guide#create-the-code-challenge-public-apps
@@ -16,7 +16,7 @@ function code_challenge() { # https://modding.wiki/en/api/oauth2-guide#create-th
 function auth_url() { # https://modding.wiki/en/api/oauth2-guide#generate-an-authorize-url
 
 	response_type='code'
-	scope='read:user'
+	scope=''
 	state=$(uuidgen)
 	method='S256'
 	challenge=$(code_challenge)
@@ -33,6 +33,7 @@ function get_token() {
 
 	printf "Please visit the following URL to authorize the application: \n\n"
 	printf "%s" "$url"
+	xdg-open "$url" 2>/dev/null || true
 
 }
 
