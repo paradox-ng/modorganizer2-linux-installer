@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 client_id="mo2linux-test"
-redirect_port="9000"
+redirect_port="8425"
 #redirect_uri=$(printf 'http://localhost:%s' "$redirect_port" | sed -e 's/:/%3A/g' -e 's/\//%2F/g')
 token="${NEXUS_TOKEN:-}"
 
