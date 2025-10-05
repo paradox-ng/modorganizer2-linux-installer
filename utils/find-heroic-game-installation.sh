@@ -19,9 +19,16 @@ get_wine_variables() {
 		return 1
 	fi
 
+	# Check for a set game-specific Wine version, then fall back to the Wine
+	# version set as default.
 	if ! heroic_game_wine="$(
 		jq --exit-status --raw-output \
-			".\"$productid\".wineVersion.bin" "$game_config_json"
+			".\"$productid\".wineVersion.bin | select(. != \"\")" \
+			"$game_config_json"
+	)" && ! heroic_game_wine="$(
+		jq --exit-status --raw-output \
+			".defaultSettings.wineVersion.bin | select(. != \"\")" \
+			"$heroic_config_directory/config.json"
 	)"; then
 		log_error "wine version is unset for this game"
 		return 1
@@ -30,7 +37,8 @@ get_wine_variables() {
 
 	if ! heroic_game_wineprefix="$(
 		jq --exit-status --raw-output \
-			".\"$productid\".winePrefix" "$game_config_json"
+			".\"$productid\".winePrefix | select(. != \"\")" \
+			"$game_config_json"
 	)"; then
 		log_error "wine prefix is unset for this game"
 		return 1
