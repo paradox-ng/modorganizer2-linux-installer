@@ -9,7 +9,9 @@ EOF
 )
 
 create_clean_prefix_text=$(
-	cat <<EOF
+	case "$game_launcher" in
+	steam)
+		cat <<EOF
 Now you need to create a clean prefix:
 
 1. On Steam: right click the game > Properties > Compatibility
@@ -19,6 +21,27 @@ Now you need to create a clean prefix:
 4. Launch the game and wait for Steam to finish its setup
 5. Close the game. It must remain stopped through the entire install process
 EOF
+		;;
+	heroic)
+		cat <<EOF
+Now you need to create a clean prefix:
+
+1. On Heroic: right click the game > Settings > WINE
+2. Under Wine Version, select the version you would like to use
+	* Proton - Proton 9.0 (Beta) is the currently supported and recommended version
+	* Note: this version is *not* in beta: it's stable, but Valve never changed the folder name after its release
+	* If this version is not in the list, do the following:
+		- Close the game settings
+		- From the left sidebar, go to Settings > Advanced
+		- Check "Allow using Valve Proton builds to run games"
+		- Make sure Proton 9.0 is installed in Steam
+		- Return to game settings
+3. Optional: navigate to the OTHER tab and check "Use Steam Runtime". This is recommended and supported.
+4. Launch the game and wait for Heroic to finish its setup
+5. Close the game. It must remain stopped through the entire install process
+EOF
+		;;
+	esac
 )
 
 function archive_existing_prefix() {
