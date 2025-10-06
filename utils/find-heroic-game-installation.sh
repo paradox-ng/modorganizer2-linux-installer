@@ -63,6 +63,8 @@ find_gog_game() {
 	fi
 	log_info "found Heroic GOG installation at '$game_installation'"
 
+	heroic_game_runner=gog
+	heroic_game_appname="$game_gog_productid"
 	get_wine_variables "$game_gog_productid"
 }
 
@@ -83,20 +85,26 @@ find_epic_game() {
 	fi
 	log_info "found Heroic Epic installation at '$game_installation'"
 
+	heroic_game_runner=legendary
+	heroic_game_appname="$game_epic_productid"
 	get_wine_variables "$game_epic_productid"
 }
 
-heroic_install_candidates=(
-	"$HOME/.config/heroic"
-	"$HOME/.var/app/com.heroicgameslauncher.hgl/config/heroic"
+declare -A heroic_install_candidates=(
+	["$HOME/.config/heroic"]=system
+	["$HOME/.var/app/com.heroicgameslauncher.hgl/config/heroic"]=flatpak
 )
 
-for heroic_config_directory in "${heroic_install_candidates[@]}"; do
+for heroic_config_directory in "${!heroic_install_candidates[@]}"; do
+	heroic_release="${heroic_install_candidates["$heroic_config_directory"]}"
 	if [ -d "$heroic_config_directory" ]; then
 		log_info "found Heroic in '$heroic_config_directory'"
 
 		if find_gog_game || find_epic_game; then
 			echo "${game_installation@A}"
+			echo "${heroic_release@A}"
+			echo "${heroic_game_runner@A}"
+			echo "${heroic_game_appname@A}"
 			echo "${heroic_game_wine@A}"
 			echo "${heroic_game_wineprefix@A}"
 			exit 0
