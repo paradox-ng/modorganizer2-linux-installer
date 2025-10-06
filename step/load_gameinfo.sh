@@ -60,6 +60,22 @@ if ! find_steam_game && ! find_heroic_game; then
 	exit 1
 fi
 
+case "$game_launcher" in
+steam)
+	game_scriptextender_url="${game_scriptextender_urls[steam]}"
+	;;
+heroic)
+	case "$heroic_game_runner" in
+	gog)
+		game_scriptextender_url="${game_scriptextender_urls[gog]}"
+		;;
+	legendary)
+		game_scriptextender_url="${game_scriptextender_urls[epic]}"
+		;;
+	esac
+	;;
+esac
+
 if [ "$game_scriptextender_url" != "" ]; then
 	hasScriptExtender=true
 else
