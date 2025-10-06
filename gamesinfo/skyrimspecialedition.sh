@@ -1,7 +1,7 @@
 game_steam_subdirectory="Skyrim Special Edition"
 game_nexusid="skyrimspecialedition"
 game_appid=489830
-game_gog_productid=""
+game_gog_productid=1711230643
 game_epic_productid=""
 game_executable="SkyrimSELauncher.exe"
 game_protontricks=("xaudio2_7=native" "xact" "d3dcompiler_43" "vcrun2022")

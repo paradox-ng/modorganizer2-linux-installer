@@ -1,5 +1,5 @@
 game_appid=22370
-game_gog_productid=""
+game_gog_productid=1454315831
 game_epic_productid=""
 game_executable="FalloutLauncherSteam.exe"
 game_nexusid="fallout3"
