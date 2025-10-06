@@ -18,6 +18,7 @@ if [ -n "${game_protontricks[*]}" ]; then
 				export WINE="$heroic_game_wine"
 
 			fi
+			export executable_winetricks
 			"$utils/winetricks.sh" apply "arial" "fontsmooth=rgb" "${game_protontricks[@]}"
 		)
 		;;

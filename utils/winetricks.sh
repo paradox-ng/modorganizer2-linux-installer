@@ -5,6 +5,11 @@ function log_error() {
 }
 
 function get_release() {
+	if [ -x "$executable_winetricks" ]; then
+		echo "downloaded"
+		return 0
+	fi
+
 	if [ -n "$(command -v flatpak)" ]; then
 		if flatpak info com.github.Matoking.protontricks &>/dev/null; then
 			echo "flatpak"
@@ -24,6 +29,10 @@ function do_winetricks() {
 	release=$(get_release)
 
 	case "$release" in
+	downloaded)
+		"$executable_winetricks" --force "$@"
+		return
+		;;
 	flatpak)
 		WINETRICKS='' \
 			flatpak run --command=winetricks 'com.github.Matoking.protontricks' --force "$@"
