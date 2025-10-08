@@ -7,6 +7,8 @@ game_executable="SkyrimVR.exe"
 game_protontricks=("xaudio2_7=native")
 declare -A game_scriptextender_urls=(
 	["steam"]="https://skse.silverlock.org/beta/sksevr_2_00_12.7z"
+	["gog"]=""
+	["epic"]=""
 )
 game_scriptextender_files=(
 	"sksevr_2_00_12/Data"

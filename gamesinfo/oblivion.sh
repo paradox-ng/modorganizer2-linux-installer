@@ -7,5 +7,7 @@ game_executable="OblivionLauncher.exe"
 game_protontricks=("d3dcompiler_43" "d3dx9")
 declare -A game_scriptextender_urls=(
 	["steam"]="https://github.com/llde/xOBSE/releases/download/22.13/xOBSE-22.13.zip"
+	["gog"]=""
+	["epic"]=""
 )
 game_scriptextender_files="*"

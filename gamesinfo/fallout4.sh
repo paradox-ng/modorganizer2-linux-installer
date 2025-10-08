@@ -6,7 +6,9 @@ game_epic_productid=""
 game_executable="Fallout4Launcher.exe"
 game_protontricks=("xaudio2_7=native" "grabfullscreen=y")
 declare -A game_scriptextender_urls=(
-	[gog]="https://f4se.silverlock.org/beta/f4se_0_06_23.7z" # Fallout 4 runtime 1.10.163
+	["steam"]=""
+	["gog"]="https://f4se.silverlock.org/beta/f4se_0_06_23.7z" # Fallout 4 runtime 1.10.163
+	["epic"]=""
 )
 game_scriptextender_files=(
 	"f4se_0_06_23/Data"

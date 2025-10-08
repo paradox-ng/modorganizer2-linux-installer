@@ -7,6 +7,8 @@ game_executable="SkyrimLauncher.exe"
 game_protontricks=("d3dcompiler_43" "d3dx9")
 declare -A game_scriptextender_urls=(
 	["steam"]="https://skse.silverlock.org/beta/skse_1_07_03.7z"
+	["gog"]=""
+	["epic"]=""
 )
 game_scriptextender_files=(
 	"skse_1_07_03/Data"
