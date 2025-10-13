@@ -18,14 +18,14 @@ EOF
 directory=$(
 	case "$game_launcher" in
 	steam)
-		default_directory="$HOME/Games/mod-organizer-2-${game_nexusid}"
+		default_directory="$HOME/Games/mod-organizer-2-${game_nexus_id}"
 		;;
 	heroic)
 		# In the Heroic official flatpak, com.heroicgameslauncher.hgl,
 		# the launcher is not permitted to read outside the
 		# ~/Games/Heroic folder. So, if we don't install here, we will
 		# cause the steam-redirector to fail after installation.
-		default_directory="$HOME/Games/Heroic/mod-organizer-2-${game_nexusid}"
+		default_directory="$HOME/Games/Heroic/mod-organizer-2-${game_nexus_id}"
 		;;
 
 	esac

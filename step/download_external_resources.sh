@@ -41,7 +41,7 @@ function validate_sha256() {
 }
 
 if [ -n "$game_scriptextender_url" ]; then
-	downloaded_scriptextender="$downloads_cache/${game_nexusid}_${game_scriptextender_url##*/}"
+	downloaded_scriptextender="$downloads_cache/${game_nexus_id}_${game_scriptextender_url##*/}"
 	extracted_scriptextender="${downloaded_scriptextender%.*}"
 fi
 

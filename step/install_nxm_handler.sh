@@ -13,9 +13,9 @@ cp "$handlers/modorganizer2-nxm-handler.desktop" "$app_dir/"
 
 truncate --size=0 "$install_dir/variables.sh"
 echo "${game_launcher@A}" >>"$install_dir/variables.sh"
-echo "${game_appid@A}" >>"$install_dir/variables.sh"
-echo "${game_epic_productid@A}" >>"$install_dir/variables.sh"
-echo "${game_gog_productid@A}" >>"$install_dir/variables.sh"
+echo "${game_steam_id@A}" >>"$install_dir/variables.sh"
+echo "${game_gog_id@A}" >>"$install_dir/variables.sh"
+echo "${game_epic_id@A}" >>"$install_dir/variables.sh"
 
 if [ -n "$(command -v xdg-mime)" ]; then
 	xdg-mime default modorganizer2-nxm-handler.desktop x-scheme-handler/nxm

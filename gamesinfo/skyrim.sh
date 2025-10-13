@@ -1,8 +1,8 @@
+game_nexus_id="skyrim"
+game_steam_id=72850
+game_gog_id=""
+game_epic_id=""
 game_steam_subdirectory="Skyrim"
-game_nexusid="skyrim"
-game_appid=72850
-game_gog_productid=""
-game_epic_productid=""
 game_executable="SkyrimLauncher.exe"
 game_protontricks=("d3dcompiler_43" "d3dx9")
 declare -A game_scriptextender_urls=(

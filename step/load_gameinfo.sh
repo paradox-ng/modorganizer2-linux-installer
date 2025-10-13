@@ -16,8 +16,8 @@ fi
 source "$load_gameinfo"
 
 find_steam_game() {
-	if [ -z "$game_appid" ]; then
-		log_warn "empty game_appid"
+	if [ -z "$game_steam_id" ]; then
+		log_warn "empty game_steam_id"
 		return 1
 	elif [ -z "$game_steam_subdirectory" ]; then
 		log_warn "empty steam_subdirectory"
@@ -25,12 +25,12 @@ find_steam_game() {
 	fi
 
 	steam_library=$(
-		export game_appid game_steam_subdirectory game_executable dialog
+		export game_steam_id game_steam_subdirectory game_executable dialog
 		"$utils/find-library-for-file.sh"
 	) ||
 		case "$?" in
 		1)
-			log_info "could not find any Steam library containing a game with appid '$game_appid'. If this game is installed with Steam and you know exactly where the library is, you can specify it using the environment variable STEAM_LIBRARY"
+			log_info "could not find any Steam library containing a game with Steam ID '$game_steam_id'. If this game is installed with Steam and you know exactly where the library is, you can specify it using the environment variable STEAM_LIBRARY"
 			return 1
 			;;
 		2)
@@ -45,7 +45,7 @@ find_steam_game() {
 
 find_heroic_game() {
 	if ! heroic_vars=$(
-		export game_gog_productid game_epic_productid
+		export game_gog_id game_epic_id
 		"$utils/find-heroic-game-installation.sh"
 	); then
 		return 1

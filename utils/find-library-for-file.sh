@@ -24,7 +24,7 @@ while read -r libdir; do
 		exit 0
 	else
 		## Fallout 3 Downgrade Check
-		if { [ "$game_appid" -eq 22300 ] || [ "$game_appid" -eq 22370 ]; } &&
+		if { [ "$game_steam_id" -eq 22300 ] || [ "$game_steam_id" -eq 22370 ]; } &&
 			[ -f "$libdir/steamapps/common/$game_steam_subdirectory/Fallout3Launcher.exe" ]; then
 			log_error "Fallout 3 and Fallout 3 GOTY require the game version to be downgraded. Instructions have been provided in the GitHub Wiki."
 

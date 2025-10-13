@@ -1,8 +1,8 @@
+game_nexus_id="newvegas"
+game_steam_id=22380
+game_gog_id=1454587428
+game_epic_id=""
 game_steam_subdirectory="Fallout New Vegas"
-game_nexusid="newvegas"
-game_appid=22380
-game_gog_productid=1454587428
-game_epic_productid=""
 game_executable="FalloutNVLauncher.exe"
 game_protontricks=("d3dcompiler_43" "d3dx9" "vcrun2022")
 declare -A game_scriptextender_urls=(

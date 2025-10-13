@@ -90,7 +90,7 @@ function create_new_prefix() {
 function load_prefix_locations() {
 	case "$game_launcher" in
 	steam)
-		game_prefix=$("$utils/protontricks.sh" get-prefix "$game_appid")
+		game_prefix=$("$utils/protontricks.sh" get-prefix "$game_steam_id")
 		if [ -n "$game_prefix" ]; then
 			game_compatdata=$(dirname "$game_prefix")
 		fi

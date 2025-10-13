@@ -4,7 +4,7 @@ if [ -n "${game_protontricks[*]}" ]; then
 	case "$game_launcher" in
 	steam)
 		log_info "applying protontricks ${game_protontricks[@]}"
-		"$utils/protontricks.sh" apply "$game_appid" "arial" "fontsmooth=rgb" "${game_protontricks[@]}"
+		"$utils/protontricks.sh" apply "$game_steam_id" "arial" "fontsmooth=rgb" "${game_protontricks[@]}"
 		;;
 	heroic)
 		(

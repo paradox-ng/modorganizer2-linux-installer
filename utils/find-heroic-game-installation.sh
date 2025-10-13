@@ -48,14 +48,14 @@ get_wine_variables() {
 
 find_gog_game() {
 	local gog_installed_json="$heroic_config_directory/gog_store/installed.json"
-	if [ -z "$game_gog_productid" ]; then
-		log_warn "empty game_gog_productid"
+	if [ -z "$game_gog_id" ]; then
+		log_warn "empty game_gog_id"
 		return 1
 	fi
 
 	if [ ! -f "$gog_installed_json" ] || ! game_installation="$(
 		jq --exit-status --raw-output \
-			".installed[] | select(.appName == \"$game_gog_productid\") | .install_path" \
+			".installed[] | select(.appName == \"$game_gog_id\") | .install_path" \
 			"$gog_installed_json"
 	)"; then
 		log_info "Heroic GOG game not installed"
@@ -64,20 +64,20 @@ find_gog_game() {
 	log_info "found Heroic GOG installation at '$game_installation'"
 
 	heroic_game_runner=gog
-	heroic_game_appname="$game_gog_productid"
-	get_wine_variables "$game_gog_productid"
+	heroic_game_appname="$game_gog_id"
+	get_wine_variables "$game_gog_id"
 }
 
 find_epic_game() {
 	local epic_installed_json="$heroic_config_directory/legendaryConfig/legendary/installed.json"
-	if [ -z "$game_epic_productid" ]; then
-		log_warn "empty game_epic_productid"
+	if [ -z "$game_epic_id" ]; then
+		log_warn "empty game_epic_id"
 		return 1
 	fi
 
 	if [ ! -f "$epic_installed_json" ] || ! game_installation="$(
 		jq --exit-status --raw-output \
-			".\"$game_epic_productid\".install_path" \
+			".\"$game_epic_id\".install_path" \
 			"$epic_installed_json"
 	)"; then
 		log_info "Heroic Epic game not installed"
@@ -86,8 +86,8 @@ find_epic_game() {
 	log_info "found Heroic Epic installation at '$game_installation'"
 
 	heroic_game_runner=legendary
-	heroic_game_appname="$game_epic_productid"
-	get_wine_variables "$game_epic_productid"
+	heroic_game_appname="$game_epic_id"
+	get_wine_variables "$game_epic_id"
 }
 
 declare -A heroic_install_candidates=(
