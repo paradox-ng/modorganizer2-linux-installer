@@ -38,7 +38,7 @@ if [ -r "$instance_dir/variables.sh" ]; then
 		# protontricks to look it up for us. Therefore, we need to look
 		# up the latest values ourselves.
 		source <(
-			export game_gog_productid game_epic_productid
+			export game_gog_id game_epic_id
 			"$(realpath "$(dirname "${BASH_SOURCE[0]}")")/find-heroic-game-installation.sh"
 		)
 		export WINEPREFIX="$heroic_game_wineprefix"
@@ -61,7 +61,7 @@ elif [ -r "$instance_dir/appid.txt" ]; then
 	#
 	# These instances are always Steam games, as they predate support for
 	# other launchers.
-	game_appid=$(cat "$instance_dir/appid.txt")
+	game_steam_id=$(cat "$instance_dir/appid.txt")
 	game_launcher=steam
 fi
 
@@ -69,7 +69,7 @@ if [ "$process_search_status" == "0" ]; then
 	echo "INFO: sending download '$nxm_link' to running Mod Organizer 2 instance"
 	case "$game_launcher" in
 	steam)
-		download_start_output=$(WINEESYNC=1 WINEFSYNC=1 protontricks-launch --appid "$game_appid" "$instance_dir/modorganizer2/nxmhandler.exe" "$nxm_link")
+		download_start_output=$(WINEESYNC=1 WINEFSYNC=1 protontricks-launch --appid "$game_steam_id" "$instance_dir/modorganizer2/nxmhandler.exe" "$nxm_link")
 		;;
 	heroic)
 		case "$heroic_release" in
@@ -87,7 +87,7 @@ else
 	echo "INFO: starting Mod Organizer 2 to download '$nxm_link'"
 	case "$game_launcher" in
 	steam)
-		download_start_output=$(steam -applaunch "$game_appid" "$nxm_link")
+		download_start_output=$(steam -applaunch "$game_steam_id" "$nxm_link")
 		;;
 	heroic)
 		heroic_launch_url="heroic://launch?appName=$(
