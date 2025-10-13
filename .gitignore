@@ -2,6 +2,7 @@
 *.swp
 *.swo
 *.orig
+*.log
 
 /steam-redirector/main
 /steam-redirector/main*.exe
