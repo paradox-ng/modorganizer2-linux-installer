@@ -1,8 +1,5 @@
 # Mod Organizer 2 Linux Installer
 
-> $${\color{red}Temporary \space Hold}$$<br/>
-> This has been my main project for a number of months, and will currently be on the backburner while I focus on getting settled into a new job as well as work on other projects. The project is not abandoned.
-
 This project aims to installing Mod Organizer 2 instances on Linux as easy as possible. It does that by providing installers which automatically setup a working experience for the user.
 
 Originally developed by rockerbacon. A major thanks to him for doing most of the legwork.
@@ -76,11 +73,9 @@ Compatibility with plugins is not guaranteed or supported. If you have issues wi
 If a plugin is found to be outdated or incompatible with Linux/Proton, it will be disabled/removed from the installer until it is fixed.
 
 ## Updating Mod Organizer 2
-
 It is highly recommended to backup your existing installation before updating.
 
 #### From 5.0 and above
-
 You can update by simply following the install instructions again.
 
 #### From 4.X.X and below
