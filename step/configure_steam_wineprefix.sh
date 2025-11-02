@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
+# Add MO2 required winetricks to game_protontricks.
+game_protontricks=("arial" "fontsmooth=rgb" "${game_protontricks[@]}")
+
 do_wineprefix_work() {
 	case "$game_launcher" in
 	steam)
 		log_info "applying protontricks ${game_protontricks[@]}"
-		"$utils/protontricks.sh" apply "$game_steam_id" "arial" "fontsmooth=rgb" "${game_protontricks[@]}"
+		"$utils/protontricks.sh" apply "$game_steam_id" "${game_protontricks[@]}"
 		;;
 	heroic)
 		(
@@ -19,13 +22,13 @@ do_wineprefix_work() {
 
 			fi
 			export executable_winetricks
-			"$utils/winetricks.sh" apply "arial" "fontsmooth=rgb" "${game_protontricks[@]}"
+			"$utils/winetricks.sh" apply "${game_protontricks[@]}"
 		)
 		;;
 	esac | "$dialog" loading "Configuring game prefix\nThis may take a while.\n\nFailure at this step may indicate an issue with Winetricks/Protontricks."
 }
 
-if [ -n "${game_protontricks[*]}" ]; then
+if [ "${#game_protontricks[@]}" -gt 0 ]; then
 	if ! do_wineprefix_work; then
 		confirm_ignore_protontricks=$(
 			"$dialog" dangerquestion \
