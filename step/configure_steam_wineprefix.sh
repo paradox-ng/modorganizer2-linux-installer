@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -n "${game_protontricks[*]}" ]; then
+do_wineprefix_work() {
 	case "$game_launcher" in
 	steam)
 		log_info "applying protontricks ${game_protontricks[@]}"
@@ -23,8 +23,10 @@ if [ -n "${game_protontricks[*]}" ]; then
 		)
 		;;
 	esac | "$dialog" loading "Configuring game prefix\nThis may take a while.\n\nFailure at this step may indicate an issue with Winetricks/Protontricks."
+}
 
-	if [ "$?" != "0" ]; then
+if [ -n "${game_protontricks[*]}" ]; then
+	if ! do_wineprefix_work; then
 		"$dialog" errorbox \
 			"Error while installing winetricks, check the terminal for more details"
 		exit 1
