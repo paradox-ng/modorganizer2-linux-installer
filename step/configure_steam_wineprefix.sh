@@ -27,8 +27,14 @@ do_wineprefix_work() {
 
 if [ -n "${game_protontricks[*]}" ]; then
 	if ! do_wineprefix_work; then
-		"$dialog" errorbox \
-			"Error while installing winetricks, check the terminal for more details"
-		exit 1
+		confirm_ignore_protontricks=$(
+			"$dialog" dangerquestion \
+				"Error while installing winetricks, check the terminal for more details. Would you like to ignore this error and continue?"
+		)
+
+		if [ "$confirm_ignore_protontricks" != "0" ]; then
+			expect_exit=1
+			exit 1
+		fi
 	fi
 fi
