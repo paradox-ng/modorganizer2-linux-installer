@@ -39,5 +39,7 @@ if [ "${#game_protontricks[@]}" -gt 0 ]; then
 			expect_exit=1
 			exit 1
 		fi
+
+		log_warn "error occurred while running winetricks, user chose to ignore and continue"
 	fi
 fi
