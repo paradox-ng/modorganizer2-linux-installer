@@ -4,7 +4,7 @@ game_gog_id=""
 game_epic_id=""
 game_steam_subdirectory="SkyrimVR"
 game_executable="SkyrimVR.exe"
-game_protontricks=("xaudio2_7=native")
+game_protontricks=("xaudio2_7=native" "xact" "d3dcompiler_43" "vcrun2022")
 declare -A game_scriptextender_urls=(
 	["steam"]="https://skse.silverlock.org/beta/sksevr_2_00_12.7z"
 	["gog"]=""
