@@ -8,7 +8,7 @@ Originally developed by rockerbacon. A major thanks to him for doing most of the
 
 ### Requirements
 
-_Currently only supports Steam installations._
+_Currently supports Steam and Heroic installations._
 
 | Program | Purpose | Availability |
 |---------|---------|--------------|
