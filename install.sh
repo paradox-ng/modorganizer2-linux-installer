@@ -57,7 +57,7 @@ function log_error() {
 
 trap handle_error EXIT
 
-if [ "$UID" == "0" ]; then
+if [ "$UID" -eq 0 ] || [ "$EUID" -eq 0 ]; then
 	log_error "Attempted to run as root"
 	log_error "Please follow the install instructions provided at https://github.com/furglitch/modorganizer2-linux-installer"
 	exit 1
