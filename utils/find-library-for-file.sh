@@ -23,15 +23,6 @@ while read -r libdir; do
 		echo "$libdir"
 		exit 0
 	else
-		## Fallout 3 Downgrade Check
-		if { [ "$game_steam_id" -eq 22300 ] || [ "$game_steam_id" -eq 22370 ]; } &&
-			[ -f "$libdir/steamapps/common/$game_steam_subdirectory/Fallout3Launcher.exe" ]; then
-			log_error "Fallout 3 and Fallout 3 GOTY require the game version to be downgraded. Instructions have been provided in the GitHub Wiki."
-
-			"$dialog" errorbox \
-				"Fallout 3 and Fallout 3 GOTY require the game version to be downgraded.\n\nInstructions have been provided in the GitHub Wiki."
-			exit 2
-		fi
 		log_info "game not found in '$libdir'"
 	fi
 done < <("$script_root/list-steam-libraries.sh")
