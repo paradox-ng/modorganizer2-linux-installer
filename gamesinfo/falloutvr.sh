@@ -1,5 +1,5 @@
 game_nexus_id="fallout4"
-game_steam_id=611670
+game_steam_id=611660
 game_gog_id=""
 game_epic_id=""
 game_steam_subdirectory="Fallout 4 VR"
