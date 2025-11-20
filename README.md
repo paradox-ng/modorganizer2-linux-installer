@@ -1,4 +1,8 @@
+<img src="./.github/img/modorganizer2-linux-installer.svg" alt="Mod Organizer 2 Linux Installer Logo" width="96" align="left" />
+
 # Mod Organizer 2 Linux Installer
+
+<br clear="left"/>
 
 This project aims to installing Mod Organizer 2 instances on Linux as easy as possible. It does that by providing installers which automatically setup a working experience for the user.
 
