@@ -11,3 +11,8 @@ if [ -f "$game_workarounds" ]; then
 	source "$game_workarounds"
 fi
 
+# Adds access to installation directory for Steam flatpak sandbox
+if [ "$("$utils/protontricks.sh" get-release)" == "flatpak" ]; then 
+	log_info "running flatpak-specific workarounds"
+	flatpak override --user --filesystem="$install_dir" com.valvesoftware.Steam
+fi

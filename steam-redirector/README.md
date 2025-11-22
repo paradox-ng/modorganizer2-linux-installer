@@ -17,19 +17,21 @@ Note that the Windows binaries are statically linked. This is necessary for prop
 ### Requirements
 
 You'll need the following:
+
 - gcc
 - make
 - Mingw64
-- Mingw64 pthread static libraries
 
 #### Fedora 35
+
 ```
-sudo dnf install gcc make mingw64-gcc mingw64-winpthreads-static
+sudo dnf install gcc make mingw64-gcc
 ```
 
 #### Arch
+
 ```
-sudo pacman -S gcc make mingw-w64-gcc mingw-w64-winpthreads
+sudo pacman -S gcc make mingw-w64-gcc
 ```
 
 Check MinGW's [downloads page](https://www.mingw-w64.org/downloads/) for a more complete list of available packages.
@@ -41,4 +43,3 @@ A Makefile is provided for simplifying the whole process.
 - Running `make` or `make main.exe` will compile Windows binaries - these are the ones you want for the MO2 installer
 - Running `make main` will compile Linux binaries
 - Running `make all` will compile all binaries
-
