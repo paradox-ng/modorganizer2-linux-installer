@@ -11,7 +11,7 @@ command -v uuidgen >/dev/null 2>&1 || { printf "ERROR: uuidgen is required. Inst
 # Grab existing variables / set defaults
 UUID=${UUID:-$(uuidgen)}
 CONNECTION_TOKEN=${CONNECTION_TOKEN:-}
-TOKEN=${API_TOKEN:-}
+API_KEY=${API_KEY:-}
 TIMEOUT=${TIMEOUT:-300}
 
 
@@ -68,21 +68,23 @@ trap cleanup EXIT
 
 
 # Start websocat in background
-websocat "-v" "wss://sso.nexusmods.com" <"$FIFO_FILE" >>"$LOG_FILE" 2>&1 &
+websocat -vn "wss://sso.nexusmods.com" <"$FIFO_FILE" >>"$LOG_FILE" 2>&1 &
 WEBSOCK_PID=$!
-printf "DEBUG: started websocat pid=%s fifo=%s log_file=%s\n" "$WEBSOCK_PID" "$FIFO_FILE" "$LOG_FILE" >&2
+printf "INFO: Started websocat (pid=%s fifo_file=%s log_file=%s)\n" "$WEBSOCK_PID" "$FIFO_FILE" "$LOG_FILE" >&2
 
 
 # DEBUG: View Logs
 tail -n +1 -F "$LOG_FILE" 2>/dev/null | (
     while IFS= read -r line; do
-        printf '%s\n' "$line"
+        # Only print non-JSON lines to avoid dumping raw JSON to the terminal
+        if ! printf '%s' "$line" | jq -e '.' >/dev/null 2>&1; then
+            printf '%s\n' "$line"
+        fi
         case "$line" in
             *Connected*|*connected*)
                 : >"$CONNECTED_FLAG"
                 ;;
         esac
-        # Try to parse any JSON on the log line for a connection token
         token=$(printf '%s' "$line" | jq -r 'try(fromjson) | .data.connection_token // empty' 2>/dev/null || true)
         if [ -n "$token" ]; then
             CONNECTION_TOKEN="$token"
@@ -94,29 +96,26 @@ tail_pid=$!
 
 # Send initial payload
 PAYLOAD=$(jq -c -n --arg id "$UUID" --arg token "$CONNECTION_TOKEN" '{id:$id,token:$token,protocol:2}')
-printf "INFO: Sending payload to SSO server: %s\n" "$PAYLOAD"
+printf "INFO: Sending payload to SSO server\n"
 printf '%s\n' "$PAYLOAD" >"$FIFO_FILE"
 
 
 # Connection Token Request & Storage
 get_connection() {
     local elapsed=0
-    local interval=2
+    local interval=1
     while [ $elapsed -lt $TIMEOUT ]; do
         JSON_OBJ=$(jq -R -r -s 'split("\n") | map(try(fromjson) catch null) | map(select(.!=null and .data and .data.connection_token)) | .[0] // empty' "$LOG_FILE" 2>/dev/null)
         if [ -n "$JSON_OBJ" ]; then
             CONNECTION_TOKEN=$(printf '%s' "$JSON_OBJ" | jq -r '.data.connection_token // empty')
-            printf '%s\n' "$CONNECTION_TOKEN"
         fi
-        printf '%s\n' "$CONNECTION_TOKEN"
         if [ -n "$CONNECTION_TOKEN" ]; then
-            printf "INFO: Retrieved connection token from SSO server: %s\n" "$CONNECTION_TOKEN"
+            printf "INFO: Retrieved connection token from SSO server\n"
             return 0
         fi
         sleep "$interval"
         elapsed=$((elapsed + interval))
     done
-    printf '%s\n' "$CONNECTION_TOKEN"
     return 1
 }
 
@@ -124,5 +123,35 @@ if [ -z "$CONNECTION_TOKEN" ]; then
     get_connection
     sed -i '/^CONNECTION_TOKEN=/d' "$VAR_FILE"
     printf 'CONNECTION_TOKEN=%s\n' "$CONNECTION_TOKEN" >>"$VAR_FILE"
-    printf "INFO: Stored new connection token: %s\n" "$CONNECTION_TOKEN"
+    printf "INFO: Stored connection token\n"
 fi
+
+get_token() {
+    local elapsed=0
+    local interval=1
+    xdg-open "$URL" >/dev/null 2>&1 || printf "INFO: Please open the following URL in your browser to authenticate:\n%s\n" "$URL"
+    while [ $elapsed -lt $TIMEOUT ]; do
+        JSON_OBJ=$(jq -R -r -s 'split("\n") | map(try(fromjson) catch null) | map(select(.!=null and .data and .data.api_key)) | .[0] // empty' "$LOG_FILE" 2>/dev/null)
+        if [ -n "$JSON_OBJ" ]; then
+            API_KEY=$(printf '%s' "$JSON_OBJ" | jq -r '.data.api_key // empty')
+        fi
+        if [ -n "$API_KEY" ]; then
+            printf "INFO: Retrieved API key from SSO server\n"
+            return 0
+        fi
+        sleep "$interval"
+        elapsed=$((elapsed + interval))
+    done
+    return 1
+}
+
+URL="https://www.nexusmods.com/sso?id=${UUID}&application=mo2lint"
+if [ -z "$API_KEY" ]; then
+    get_token
+    sed -i '/^API_KEY=/d' "$VAR_FILE"
+    printf 'API_KEY=%s\n' "$API_KEY" >>"$VAR_FILE"
+    printf "INFO: Stored API key\n"
+fi
+
+pkill "$WEBSOCK_PID" 2>/dev/null || true
+printf "INFO: SSO process completed\n"
