@@ -1,16 +1,27 @@
 #!/usr/bin/env bash
+type=$1; shift
 
-token="${NEXUS_TOKEN:-}"
-user_token="${NEXUS_USER_TOKEN:-}"
+# USAGE:
+# "$utils/nexus-api.sh" download <game_id> <mod_id> <file_id> <output_path>
+
+VAR_FILE=${VAR:-"$HOME/.local/share/modorganizer2/nexus.env"}
+
+if [ -f "$VAR_FILE" ]; then
+	source "$VAR_FILE"
+	token="${API_KEY:-}"
+fi
+if [ -z "$token" ]; then
+	$utils/nexus-sso.sh
+	if [ -f "$VAR_FILE" ]; then
+		source "$VAR_FILE"
+		token="${API_KEY:-}"
+	fi
+fi
 application="mo2lint"
 version="indev"
 
-function oauth() {
-	
-}
-
 function request_headers() {
-	echo "apikey: $user_token"
+	echo "apikey: $token"
 	echo "Application-Name: $application"
 	echo "Application-Version: $version"
 }
@@ -27,12 +38,12 @@ function curl_nexus() {
 		headers+=("-H" "$line")
 	done < <(request_headers)
 
-	log_info "Requesting URL: $url"
+	printf "INFO: requesting uri %s\n" "$url" >&2
 
 	while [ $attempt -lt $attempt_max ]; do
 		response=$(curl -s -v "${headers[@]}" "$@" "$url")
 		if [[ -z "$response" || "$response" == *"Please provide an authentication method"* ]]; then
-			log_info "Attempt $attempt failed: No response or authentication required. Retrying..."
+			printf "INFO: Attempt $attempt failed: No response or authentication required. Retrying...\n" >&2
 			((attempt++))
 			sleep 2
 		else
@@ -41,7 +52,7 @@ function curl_nexus() {
 		fi
 	done
 
-	log_error "Failed after $attempt_max attempts."
+	printf "ERROR: Failed after $attempt_max attempts.\n" >&2
 	exit 1
 }
 
@@ -51,25 +62,30 @@ function fetch_download_link() {
 	local file_id="$3"
 
 	response=$(curl_nexus "https://api.nexusmods.com/v1/games/$game_id/mods/$mod_id/files/$file_id/download_link.json")
-	parsed=$(echo "$response" | grep -o '{[^}]*"short_name":"Nexus CDN"[^}]*}' | sed -n 's/.*"URI":"\([^"]*\)".*/\1/p')
-	parsed=$(echo "$parsed" | sed 's/\\u0026/\&/g')
+	parsed=$(printf "%s" "$response" | grep -o '{[^}]*"short_name":"Nexus CDN"[^}]*}' | sed -n 's/.*"URI":"\([^"]*\)".*/\1/p')
+	parsed=$(printf "%s" "$parsed" | sed 's/\\u0026/\&/g')
 
-	log_info "Raw response: $response"
-	log_info "Parsed download link: $parsed"
-
+	#printf "INFO: Raw response: %s\n" "$response" >&2
+	#printf "INFO: Parsed download link: %s\n" "$parsed">&2
 	if [ -z "$parsed" ]; then
-		log_error "Failed to parse download link from response."
+		printf "ERROR: Failed to parse download link from response.\n" >&2
 		exit 1
 	fi
 
 	echo "${parsed}"
 }
 
-function url_download() {
-	url="$1"
-	out="-L --fail -o '$2'"
+download() {
+	url=$(fetch_download_link $1 $2 $3 | sed 's/ /%20/g')
 
-	url_encoded="${url// /%20}"
-	#curl_nexus "$url_encoded" $out
-	curl -L --fail -o "$2" "$url_encoded"
+	if [[ "$4" == ~* ]]; then
+		out="${4/#\~/$HOME}"
+	fi
+
+	printf "INFO: Downloading %s to %s\n" "$url" "$out" >&2
+
+	curl "$url" -L --fail -o "$out"
 }
+
+$type "$@"
+exit $?

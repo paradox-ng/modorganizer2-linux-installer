@@ -30,16 +30,16 @@ if [ -s "$VAR_FILE" ]; then
     file_uuid=$(awk -F= '/^UUID=/{print $2; exit}' "$VAR_FILE")
     if printf '%s' "$file_uuid" | grep -Eq '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'; then # If existing and valid UUID
         UUID="$file_uuid"
-        printf "INFO: Using existing UUID: %s\n" "$UUID"
+        printf "INFO: Using existing UUID\n"
     else
         sed -i '/^UUID=/d' "$VAR_FILE"
         printf 'UUID=%s\n' "$UUID" >>"$VAR_FILE"
-        printf "INFO: Generated and stored new UUID: %s\n" "$UUID"
+        printf "INFO: Generated and stored new UUID\n"
     fi
 else
     sed -i '/^UUID=/d' "$VAR_FILE"
     printf 'UUID=%s\n' "$UUID" >>"$VAR_FILE"
-    printf "INFO: Generated and stored new UUID: %s\n" "$UUID"
+    printf "INFO: Generated and stored new UUID\n"
 fi
 
 
@@ -124,6 +124,15 @@ if [ -z "$CONNECTION_TOKEN" ]; then
     sed -i '/^CONNECTION_TOKEN=/d' "$VAR_FILE"
     printf 'CONNECTION_TOKEN=%s\n' "$CONNECTION_TOKEN" >>"$VAR_FILE"
     printf "INFO: Stored connection token\n"
+fi
+
+# API_KEY Storage
+if [ -s "$VAR_FILE" ]; then
+    file_token=$(awk -F= '/^API_KEY=/{print $2; exit}' "$VAR_FILE")
+    if [ -n "$file_token" ]; then
+        API_KEY="$file_token"
+        printf "INFO: Using existing API_KEY\n"
+    fi
 fi
 
 get_token() {
