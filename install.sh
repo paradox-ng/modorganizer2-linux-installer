@@ -110,7 +110,7 @@ source "$step/load_plugininfo.sh"
 
 source "$step/clean_game_prefix.sh"
 
-install_dir='/home/furglitch/Downloads/test' #$(source "$step/select_install_dir.sh")
+install_dir=$(source "$step/select_install_dir.sh")
 log_info "selected install directory '$install_dir'"
 
 expect_exit=0

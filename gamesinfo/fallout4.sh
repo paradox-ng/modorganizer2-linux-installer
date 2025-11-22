@@ -5,8 +5,6 @@ game_epic_id=""
 game_steam_subdirectory="Fallout 4"
 game_executable="Fallout4Launcher.exe"
 game_protontricks=("xaudio2_7=native" "grabfullscreen=y")
-game_scriptextender_modid="42147"
-game_scriptextender_fileid="316287"
 declare -A game_scriptextender_urls=(
 	["steam"]=""
 	["gog"]="https://f4se.silverlock.org/beta/f4se_0_06_23.7z" # Fallout 4 runtime 1.10.163

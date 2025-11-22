@@ -40,17 +40,9 @@ function validate_sha256() {
 	return 0
 }
 
-echo $nexus_scriptextender
-
-if [ "$nexus_scriptextender" == true ]; then
-	game_scriptextender_url=$(source "$nexusapi"; fetch_download_link "$game_nexusid" "$game_scriptextender_modid" "$game_scriptextender_fileid")
-	log_info "Resolved script extender URL: $game_scriptextender_url"
-fi
-
 if [ -n "$game_scriptextender_url" ]; then
 	downloaded_scriptextender="$downloads_cache/${game_nexus_id}_${game_scriptextender_url##*/}"
 	extracted_scriptextender="${downloaded_scriptextender%.*}"
-	log_info "Will extract script extender to: $extracted_scriptextender"
 fi
 
 if [ -n "$plugin_download_urls" ]; then
@@ -153,13 +145,7 @@ cp "$downloaded_winetricks" "$executable_winetricks"
 chmod u+x "$executable_winetricks"
 
 if [ "$install_extras" == true ] && [ -n "$downloaded_scriptextender" ] && [ ! -f "$downloaded_scriptextender" ]; then
-	log_info "Fetching script extender"
-	if [ "$nexus_scriptextender" == true ]; then
-		log_info "Downloading script extender from Nexus Mods"
-		source "$nexusapi"; url_download "$game_scriptextender_url" "$downloaded_scriptextender"
-	else
-		"$download" "$game_scriptextender_url" "$downloaded_scriptextender"
-	fi
+	"$download" "$game_scriptextender_url" "$downloaded_scriptextender"
 	mkdir "$extracted_scriptextender"
 	"$extract" "$downloaded_scriptextender" "$extracted_scriptextender"
 fi

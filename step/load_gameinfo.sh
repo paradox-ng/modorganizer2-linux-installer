@@ -78,13 +78,12 @@ esac
 
 if [ "$game_scriptextender_url" != "" ]; then
 	hasScriptExtender=true
-	if [ -z "$game_scriptextender_url" ] && { [ -n "$game_scriptextender_modid" ] || [ -n "$game_scriptextender_fileid" ]; }; then
-		nexus_scriptextender=true
-	fi
+	#if [ -z "$game_scriptextender_url" ] && { [ -n "$game_scriptextender_modid" ] || [ -n "$game_scriptextender_fileid" ]; }; then
+	#	nexus_scriptextender=true
+	#fi
 else
 	hasScriptExtender=false
 fi
-echo $nexus_scriptextender
 
 # defer loading these variables to step/clean_game_prefix.sh
 game_prefix=''
