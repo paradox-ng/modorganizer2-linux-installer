@@ -2,7 +2,7 @@
 
 token="${NEXUS_TOKEN:-}"
 user_token="${NEXUS_USER_TOKEN:-}"
-application="mod-organizer-2-linux-installer"
+application="mo2lint"
 version="indev"
 
 function oauth() {

@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+
+printf "INFO: Starting SSO process\n"
+
+# Check dependencies
+command -v websocat >/dev/null 2>&1 || { printf "ERROR: websocat is required. Install it and retry.\n"; exit 2; }
+command -v jq >/dev/null 2>&1 || { printf "ERROR: jq is required. Install it and retry.\n"; exit 2; }
+command -v uuidgen >/dev/null 2>&1 || { printf "ERROR: uuidgen is required. Install it and retry.\n"; exit 2; }
+
+
+# Grab existing variables / set defaults
+UUID=${UUID:-$(uuidgen)}
+CONNECTION_TOKEN=${CONNECTION_TOKEN:-}
+TOKEN=${API_TOKEN:-}
+TIMEOUT=${TIMEOUT:-300}
+
+
+# Set up files
+VAR_FILE=${VAR:-"$HOME/.local/share/modorganizer2/nexus.env"}
+touch "$VAR_FILE"
+FIFO_FILE="$(mktemp -u /tmp/nexus-sso.fifo.XXXX)"
+mkfifo "$FIFO_FILE"
+LOG_FILE=${LOG:-/tmp/nexus-sso.log}
+: >"$LOG_FILE"
+CONNECTED_FLAG=/tmp/nexus-sso.connected
+
+
+# UUID Storage
+if [ -s "$VAR_FILE" ]; then
+    file_uuid=$(awk -F= '/^UUID=/{print $2; exit}' "$VAR_FILE")
+    if printf '%s' "$file_uuid" | grep -Eq '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'; then # If existing and valid UUID
+        UUID="$file_uuid"
+        printf "INFO: Using existing UUID: %s\n" "$UUID"
+    else
+        sed -i '/^UUID=/d' "$VAR_FILE"
+        printf 'UUID=%s\n' "$UUID" >>"$VAR_FILE"
+        printf "INFO: Generated and stored new UUID: %s\n" "$UUID"
+    fi
+else
+    sed -i '/^UUID=/d' "$VAR_FILE"
+    printf 'UUID=%s\n' "$UUID" >>"$VAR_FILE"
+    printf "INFO: Generated and stored new UUID: %s\n" "$UUID"
+fi
+
+
+# CONNECTION_TOKEN Storage
+if [ -s "$VAR_FILE" ]; then
+    file_token=$(awk -F= '/^CONNECTION_TOKEN=/{print $2; exit}' "$VAR_FILE")
+    if [ -n "$file_token" ]; then
+        CONNECTION_TOKEN="$file_token"
+        printf "INFO: Using existing CONNECTION_TOKEN\n"
+    fi
+fi
+
+
+# Cleanup on exit
+cleanup() {
+    rm -f "$FIFO_FILE"
+    rm -f "$CONNECTED_FLAG"
+    if [ -n "${WEBSOCK_PID:-}" ]; then
+        kill "${WEBSOCK_PID}" 2>/dev/null || true
+    fi
+    if [ -n "${tail_pid:-}" ]; then
+        kill "${tail_pid}" 2>/dev/null || true
+    fi
+}
+trap cleanup EXIT
+
+
+# Start websocat in background
+websocat "-v" "wss://sso.nexusmods.com" <"$FIFO_FILE" >>"$LOG_FILE" 2>&1 &
+WEBSOCK_PID=$!
+printf "DEBUG: started websocat pid=%s fifo=%s log_file=%s\n" "$WEBSOCK_PID" "$FIFO_FILE" "$LOG_FILE" >&2
+
+
+# DEBUG: View Logs
+tail -n +1 -F "$LOG_FILE" 2>/dev/null | (
+    while IFS= read -r line; do
+        printf '%s\n' "$line"
+        case "$line" in
+            *Connected*|*connected*)
+                : >"$CONNECTED_FLAG"
+                ;;
+        esac
+        # Try to parse any JSON on the log line for a connection token
+        token=$(printf '%s' "$line" | jq -r 'try(fromjson) | .data.connection_token // empty' 2>/dev/null || true)
+        if [ -n "$token" ]; then
+            CONNECTION_TOKEN="$token"
+        fi
+    done
+) &
+tail_pid=$!
+
+
+# Send initial payload
+PAYLOAD=$(jq -c -n --arg id "$UUID" --arg token "$CONNECTION_TOKEN" '{id:$id,token:$token,protocol:2}')
+printf "INFO: Sending payload to SSO server: %s\n" "$PAYLOAD"
+printf '%s\n' "$PAYLOAD" >"$FIFO_FILE"
+
+
+# Connection Token Request & Storage
+get_connection() {
+    local elapsed=0
+    local interval=2
+    while [ $elapsed -lt $TIMEOUT ]; do
+        JSON_OBJ=$(jq -R -r -s 'split("\n") | map(try(fromjson) catch null) | map(select(.!=null and .data and .data.connection_token)) | .[0] // empty' "$LOG_FILE" 2>/dev/null)
+        if [ -n "$JSON_OBJ" ]; then
+            CONNECTION_TOKEN=$(printf '%s' "$JSON_OBJ" | jq -r '.data.connection_token // empty')
+            printf '%s\n' "$CONNECTION_TOKEN"
+        fi
+        printf '%s\n' "$CONNECTION_TOKEN"
+        if [ -n "$CONNECTION_TOKEN" ]; then
+            printf "INFO: Retrieved connection token from SSO server: %s\n" "$CONNECTION_TOKEN"
+            return 0
+        fi
+        sleep "$interval"
+        elapsed=$((elapsed + interval))
+    done
+    printf '%s\n' "$CONNECTION_TOKEN"
+    return 1
+}
+
+if [ -z "$CONNECTION_TOKEN" ]; then
+    get_connection
+    sed -i '/^CONNECTION_TOKEN=/d' "$VAR_FILE"
+    printf 'CONNECTION_TOKEN=%s\n' "$CONNECTION_TOKEN" >>"$VAR_FILE"
+    printf "INFO: Stored new connection token: %s\n" "$CONNECTION_TOKEN"
+fi
