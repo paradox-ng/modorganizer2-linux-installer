@@ -41,7 +41,12 @@ function validate_sha256() {
 }
 
 if [ -n "$game_scriptextender_url" ]; then
-	downloaded_scriptextender="$downloads_cache/${game_nexus_id}_${game_scriptextender_url##*/}"
+	if [ "$nexus_scriptextender" == true ]; then
+		filename=$("$utils/nexus-api.sh" filename "${game_scriptextender_url}")
+	else 
+		filename="${game_scriptextender_url##*/}"
+	fi
+	downloaded_scriptextender="$downloads_cache/${game_nexus_id}_${filename}"
 	extracted_scriptextender="${downloaded_scriptextender%.*}"
 fi
 
@@ -145,7 +150,12 @@ cp "$downloaded_winetricks" "$executable_winetricks"
 chmod u+x "$executable_winetricks"
 
 if [ "$install_extras" == true ] && [ -n "$downloaded_scriptextender" ] && [ ! -f "$downloaded_scriptextender" ]; then
-	"$download" "$game_scriptextender_url" "$downloaded_scriptextender"
+	if [ "$nexus_scriptextender" == true ]; then
+		"$utils/nexus-api.sh" download \
+			${game_scriptextender_url} ${downloaded_scriptextender}
+	else 
+		"$download" "$game_scriptextender_url" "$downloaded_scriptextender"
+	fi
 	mkdir "$extracted_scriptextender"
 	"$extract" "$downloaded_scriptextender" "$extracted_scriptextender"
 fi

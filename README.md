@@ -20,7 +20,8 @@ _Currently supports Steam and Heroic installations._
 | curl _or_ wget | internet downloads | Installed by default on _most_ distros |
 | zenity | dialog boxes ("gui") | Installed by default on _most_ distros |
 | 7z | archive extractor | Should be available through your distro's package manager |
-| jq | json reader | Should be available through your distro's package manager.</br>Soft requirement for MO2 plugins, will run without it |
+| jq | json reader | Should be available through your distro's package manager.</br>Soft requirement for MO2 plugins and Nexus SSO, will run without it |
+| websocat | websocket handler | Should be available through your distro's package manager.</br>Soft requirement for Nexus SSO, will run without it |
 | protontricks | proton prefix editor | **Steam Deck:** Must install via Discover.</br>**Others:** Check [available install methods](https://github.com/Matoking/protontricks#installation) to ensure you're using an up-to-date version |
 | protontricks-launcher | protontricks gui | Should come with `protontricks`. If it's not available, see [this](https://github.com/Matoking/protontricks#desktop)
 
