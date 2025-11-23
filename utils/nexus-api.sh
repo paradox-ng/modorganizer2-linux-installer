@@ -2,7 +2,7 @@
 type=$1; shift
 
 # USAGE:
-# "$utils/nexus-api.sh" download <game_id> <mod_id> <file_id> <output_path>
+# "$utils/nexus-api.sh" download <url> <output_path>
 
 VAR_FILE=${VAR:-"$HOME/.local/share/modorganizer2/nexus.env"}
 
@@ -62,8 +62,7 @@ function fetch_download_link() {
 	local file_id="$3"
 
 	response=$(curl_nexus "https://api.nexusmods.com/v1/games/$game_id/mods/$mod_id/files/$file_id/download_link.json")
-	parsed=$(printf "%s" "$response" | grep -o '{[^}]*"short_name":"Nexus CDN"[^}]*}' | sed -n 's/.*"URI":"\([^"]*\)".*/\1/p')
-	parsed=$(printf "%s" "$parsed" | sed 's/\\u0026/\&/g')
+	parsed=$(printf "%s" "$response" | jq -r '.[] | select(.short_name=="Nexus CDN") | .URI' | sed 's/\\u0026/\&/g')
 
 	#printf "INFO: Raw response: %s\n" "$response" >&2
 	#printf "INFO: Parsed download link: %s\n" "$parsed">&2
@@ -75,13 +74,38 @@ function fetch_download_link() {
 	echo "${parsed}"
 }
 
-download() {
-	url=$(fetch_download_link $1 $2 $3 | sed 's/ /%20/g')
-
-	if [[ "$4" == ~* ]]; then
-		out="${4/#\~/$HOME}"
+function extract_ids() {
+	local url="$1"
+	local game_id=""
+	local mod_id=""
+	local file_id=""
+	
+	if [[ "$url" =~ .com/([A-Za-z0-9]+)/mods/([0-9]+).*file_id=([0-9]+) ]]; then
+		game_id="${BASH_REMATCH[1]}"
+		mod_id="${BASH_REMATCH[2]}"
+		file_id="${BASH_REMATCH[3]}"
+		echo "$game_id $mod_id $file_id"
+	else
+		echo ""
 	fi
+}
 
+filename() {
+	read game_id mod_id file_id < <(extract_ids "$1")
+	
+	response=$(curl_nexus "https://api.nexusmods.com/v1/games/$game_id/mods/$mod_id/files/$file_id.json")
+	parsed=$(printf "%s" "$response" | jq -r '.file_name' | tr ' ' '_')
+	printf "RAW: %s\n" "$response" >&2
+	printf "INFO: Parsed filename: %s\n" "$parsed" >&2
+
+	echo "${parsed}"
+
+}
+
+download() {
+	read game_id mod_id file_id < <(extract_ids "$1")
+	url=$(fetch_download_link $game_id $mod_id $file_id | sed 's/ /%20/g')
+	out="${2/#\~/$HOME}"
 	printf "INFO: Downloading %s to %s\n" "$url" "$out" >&2
 
 	curl "$url" -L --fail -o "$out"
