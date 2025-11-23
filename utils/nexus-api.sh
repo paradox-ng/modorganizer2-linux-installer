@@ -18,7 +18,7 @@ if [ -z "$token" ]; then
 	fi
 fi
 application="mo2lint"
-version="indev"
+version="6.0.7"
 
 function request_headers() {
 	echo "apikey: $token"
