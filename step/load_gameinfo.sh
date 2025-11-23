@@ -78,13 +78,13 @@ esac
 
 nexus_scriptextender=false
 if [ -n "$game_scriptextender_url" ]; then
-    hasScriptExtender=true
+	hasScriptExtender=true
 	if [[ "$game_scriptextender_url" =~ ^https://www\.nexusmods\.com/[A-Za-z0-9_-]+/mods/[0-9]+\\?.*file_id=[0-9]+$ ]]; then
 		log_info "Script extender will be downloaded from Nexus Mods"
 		nexus_scriptextender=true
-    fi
+	fi
 else
-    hasScriptExtender=false
+	hasScriptExtender=false
 fi
 
 # defer loading these variables to step/clean_game_prefix.sh
