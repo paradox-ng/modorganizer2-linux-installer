@@ -57,6 +57,12 @@ function install_files() {
 	if [ "$install_extras" == true ] && [ -d "$extracted_scriptextender" ]; then
 		log_info "installing script extender in '$game_installation'"
 
+		# Load list for relevant launcher
+		game_scriptextender_files="${game_scriptextender_files[$game_launcher]}"
+		if declare -p "$game_scriptextender_files" &>/dev/null; then
+			declare -n game_scriptextender_files="$game_scriptextender_files"
+		fi
+
 		if [ "${game_scriptextender_files[*]}" == "*" ]; then
 			log_info "copying all files from '$extracted_scriptextender' into '$game_installation'"
 			cp -an "$extracted_scriptextender"/* "$game_installation" || true
