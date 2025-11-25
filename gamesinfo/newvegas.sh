@@ -1,7 +1,7 @@
 game_nexus_id="newvegas"
 game_steam_id=22380
 game_gog_id=1454587428
-game_epic_id=""
+game_epic_id="5daeb974a22a435988892319b3a4f476"
 game_steam_subdirectory="Fallout New Vegas"
 game_executable="FalloutNVLauncher.exe"
 game_protontricks=("d3dcompiler_43" "d3dx9" "vcrun2022")

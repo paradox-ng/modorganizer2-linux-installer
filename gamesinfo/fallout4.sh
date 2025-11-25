@@ -1,7 +1,7 @@
 game_nexus_id="fallout4"
 game_steam_id=377160
 game_gog_id=1998527297
-game_epic_id=""
+game_epic_id="61d52ce4d09d41e48800c22784d13ae8"
 game_steam_subdirectory="Fallout 4"
 game_executable="Fallout4Launcher.exe"
 game_protontricks=("xaudio2_7=native" "grabfullscreen=y")
