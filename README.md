@@ -16,7 +16,7 @@ Originally developed by rockerbacon. A major thanks to him for doing most of the
 >
 > $${\color{red}Update \space (2025-01-29):}$$<br/>
 > The rewrite is nearly complete! Doing some final checks.
-> At this point, my attention will be fully on the update. Current bugs and feature requests will not be requested at this time, and closed when the update releases.
+> At this point, my attention will be fully on the update. Current bugs and feature requests will not be addressed at this time, and closed when the update releases.
 > Thank you for your patience. Hopefully all this work pays off.
 
 ## Installing Mod Organizer 2
