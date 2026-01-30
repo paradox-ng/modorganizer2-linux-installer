@@ -13,6 +13,11 @@ Originally developed by rockerbacon. A major thanks to him for doing most of the
 > As such, we are in the process of rewriting the whole project in Python.<br/>
 > Further details can be found on the [rewrite branch's README](https://github.com/Furglitch/modorganizer2-linux-installer/blob/rewrite/README.md) and in the [rewrite discussion thread](https://github.com/Furglitch/modorganizer2-linux-installer/discussions/873).<br/>
 > <b><i>The project is not abandoned</i></b>. Any critical issues will be addressed, but other developments (non-critical bugs, new features) will take a backseat to the rewrite.<br/>
+>
+> $${\color{red}Update:}$$<br/>
+> The rewrite is nearly complete! Doing some final checks.
+> At this point, my attention will be fully on the update. Current bugs and feature requests will not be requested at this time, and closed when the update releases.
+> Thank you for your patience. Hopefully all this work pays off.
 
 ## Installing Mod Organizer 2
 
